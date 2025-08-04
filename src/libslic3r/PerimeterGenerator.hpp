@@ -15,6 +15,7 @@
 #include "Layer.hpp"
 #include "Polygon.hpp"
 #include "PrintConfig.hpp"
+#include "RegionSettings.hpp"
 #include "SurfaceCollection.hpp"
 
 namespace Slic3r::Arachne {
@@ -67,23 +68,26 @@ struct Parameters
     coord_t       get_min_round_spacing() const { return min_round_spacing; }
 
     // cached parameters
-    Polygons lower_slices_bridge;
+    Polygons lower_slices_bridge_for_extra_overhangs;
     Polygons lower_slices_bridge_dynamic;
     Polygons lower_slices_bridge_speed_small;
     Polygons lower_slices_bridge_speed_big;
     Polygons lower_slices_bridge_flow_small;
     Polygons lower_slices_bridge_flow_big;
 
-    Parameters(Layer                   *layer,
-               Flow                     perimeter_flow,
-               Flow                     ext_perimeter_flow,
-               Flow                     overhang_flow,
-               Flow                     solid_infill_flow,
+    static const std::vector<t_config_option_keys> perimeter_keys;
+    RegionSettings region_setting;
+
+    Parameters(Layer *layer,
+               Flow perimeter_flow,
+               Flow ext_perimeter_flow,
+               Flow overhang_flow,
+               Flow solid_infill_flow,
                const PrintRegionConfig &config,
                const PrintObjectConfig &object_config,
-               const PrintConfig &      print_config,
-               const bool               spiral_vase,
-               const bool               arachne)
+               const PrintConfig &print_config,
+               const bool spiral_vase,
+               const bool arachne)
         : layer(layer)
         , perimeter_flow(perimeter_flow)
         , ext_perimeter_flow(ext_perimeter_flow)
@@ -94,7 +98,7 @@ struct Parameters
         , print_config(print_config)
         , spiral_vase(spiral_vase)
         , use_arachne(arachne)
-        ,
+        , region_setting(config, perimeter_keys),
         // other perimeters
         m_mm3_per_mm(perimeter_flow.mm3_per_mm()),
         perimeter_width(perimeter_flow.scaled_width()),
@@ -190,6 +194,8 @@ public:
     const ExPolygons            *lower_slices;
     const SurfaceCollection     *slices;
     const ExPolygons            *upper_slices;
+    //const Surface               *surface;
+    BoundingBox                 surface_bbox;
     Parameters             params;
     std::function<void()>        throw_if_canceled = []() {};
     // Outputs:
@@ -238,6 +244,7 @@ private:
     {
         bool is_external;
         bool is_loop;
+        bool has_dynamic;
         size_t layer_height_count;
         Point first_point;
         Point last_point;
@@ -268,8 +275,12 @@ private:
                             ExPolygons &      top_fills,
                             ExPolygons &      non_top_polygons,
                             ExPolygons &      fill_clip,
-                            int nb_peri_to_print
+                            int nb_peri_to_print,
+                            coordf_t min_width,
+                            bool use_old_algorithm_for_min_width
     );
+    // for overhangs_speed_enforce
+    bool _enforce_speed_overhangs(ExtrusionPaths &paths, int count_since_overhang) const;
 
 };
 
