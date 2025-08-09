@@ -131,24 +131,20 @@ jobs:
       with:
         name: nightly_win64
         path: build/package/
-
 # MSI CREATION
     - name: Install WiX Toolset
       run: choco install wixtoolset -y
-
-     - name: Harvest files for MSI
+    - name: Harvest files for MSI
       shell: cmd
       working-directory: ./build
       run: |
         "C:\Program Files (x86)\WiX Toolset v3.11\bin\heat.exe" dir package -dr INSTALLFOLDER -cg Package -gg -sreg -srd -var var.SourceDir -out files.wxs
-    
     - name: Build MSI installer
       shell: cmd
       working-directory: ./build
       run: |
         candle ..\installer.wxs files.wxs
         light -b package -ext WixUIExtension installer.wixobj files.wixobj -o SuperSlicer.msi
-
     - name: Upload MSI artifact
       uses: actions/upload-artifact@v4
       with:
