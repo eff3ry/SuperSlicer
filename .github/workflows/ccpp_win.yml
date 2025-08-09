@@ -138,13 +138,13 @@ jobs:
       shell: cmd
       working-directory: ./build
       run: |
-        "C:\Program Files (x86)\WiX Toolset v3.11\bin\heat.exe" dir package -dr INSTALLFOLDER -cg Package -gg -sreg -srd -var var.SourceDir -out files.wxs
+        heat.exe dir package -dr INSTALLFOLDER -cg Package -gg -sreg -srd -var var.SourceDir -out files.wxs
     - name: Build MSI installer
       shell: cmd
       working-directory: ./build
       run: |
-        candle ..\installer.wxs files.wxs
-        light -b package -ext WixUIExtension installer.wixobj files.wixobj -o SuperSlicer.msi
+        candle.exe ..\installer.wxs files.wxs
+        light.exe -b package -ext WixUIExtension installer.wixobj files.wixobj -o SuperSlicer.msi
     - name: Upload MSI artifact
       uses: actions/upload-artifact@v4
       with:
