@@ -1,0 +1,14 @@
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="SuperSlicer" Language="1033" Version="1.0.0.0" Manufacturer="Supermerill" UpgradeCode="ee58a199-3c77-4865-bbe9-52b9cbb2bc32">
+    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" />
+    <MediaTemplate />
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="SuperSlicer" />
+      </Directory>
+    </Directory>
+    <Feature Id="DefaultFeature" Level="1">
+      <ComponentGroupRef Id="Package" />
+    </Feature>
+  </Product>
+</Wix>
