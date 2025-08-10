@@ -143,7 +143,7 @@ jobs:
       shell: cmd
       working-directory: ./build
       run: |
-        candle.exe ..\installer.wxs files.wxs
+        candle.exe -dSourceDir="package" ..\installer.wxs files.wxs
         light.exe -b package -ext WixUIExtension installer.wixobj files.wixobj -o SuperSlicer.msi
     - name: Upload MSI artifact
       uses: actions/upload-artifact@v4
