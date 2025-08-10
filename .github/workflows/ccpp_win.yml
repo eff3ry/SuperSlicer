@@ -146,7 +146,7 @@ jobs:
       shell: cmd
       working-directory: ./build
       run: |
-        heat.exe dir package -dr INSTALLFOLDER -cg Package -gg -sreg -srd -var var.SourceDir -out files.wxs
+        heat.exe dir package -dr INSTALLFOLDER -cg Package -gg -sreg -srd -var var.SourceDir -out files.wxs -sfrag
     - name: Build MSI installer
       shell: cmd
       working-directory: ./build
