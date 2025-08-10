@@ -71,28 +71,28 @@
         <!-- STL file association -->
         <ProgId Id="SuperSlicer.STL" Description="STL 3D Model">
           <Extension Id="stl" ContentType="application/sla">
-            <Verb Id="open" Sequence="1" Command="&quot;[INSTALLFOLDER]superslicer.exe&quot; &quot;%1&quot;" />
+            <Verb Id="open" Command="&quot;[INSTALLFOLDER]superslicer.exe&quot; &quot;%1&quot;" Advertise="yes" />
           </Extension>
         </ProgId>
         
         <!-- 3MF file association -->
         <ProgId Id="SuperSlicer.3MF" Description="3D Manufacturing Format">
           <Extension Id="3mf" ContentType="application/vnd.ms-package.3dmanufacturing-3dmodel+xml">
-            <Verb Id="open" Sequence="1" Command="&quot;[INSTALLFOLDER]superslicer.exe&quot; &quot;%1&quot;" />
+            <Verb Id="open" Command="&quot;[INSTALLFOLDER]superslicer.exe&quot; &quot;%1&quot;" Advertise="yes" />
           </Extension>
         </ProgId>
         
         <!-- OBJ file association -->
         <ProgId Id="SuperSlicer.OBJ" Description="Wavefront OBJ 3D Model">
           <Extension Id="obj" ContentType="text/plain">
-            <Verb Id="open" Sequence="1" Command="&quot;[INSTALLFOLDER]superslicer.exe&quot; &quot;%1&quot;" />
+            <Verb Id="open" Command="&quot;[INSTALLFOLDER]superslicer.exe&quot; &quot;%1&quot;" Advertise="yes" />
           </Extension>
         </ProgId>
         
         <!-- AMF file association -->
         <ProgId Id="SuperSlicer.AMF" Description="Additive Manufacturing Format">
           <Extension Id="amf" ContentType="application/x-amf">
-            <Verb Id="open" Sequence="1" Command="&quot;[INSTALLFOLDER]superslicer.exe&quot; &quot;%1&quot;" />
+            <Verb Id="open" Command="&quot;[INSTALLFOLDER]superslicer.exe&quot; &quot;%1&quot;" Advertise="yes" />
           </Extension>
         </ProgId>
         
