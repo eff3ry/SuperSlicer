@@ -66,30 +66,27 @@
     </DirectoryRef>
     
     <!-- File associations for common 3D file formats -->
+    <!--
     <DirectoryRef Id="INSTALLFOLDER">
       <Component Id="FileAssociations" Guid="*">
-        <!-- STL file association -->
         <ProgId Id="SuperSlicer.STL" Description="STL 3D Model">
           <Extension Id="stl" ContentType="application/sla">
             <Verb Id="open" Command="&quot;%1&quot;" TargetFile="[INSTALLFOLDER]superslicer.exe" />
           </Extension>
         </ProgId>
         
-        <!-- 3MF file association -->
         <ProgId Id="SuperSlicer.3MF" Description="3D Manufacturing Format">
           <Extension Id="3mf" ContentType="application/vnd.ms-package.3dmanufacturing-3dmodel+xml">
             <Verb Id="open" Command="&quot;%1&quot;" TargetFile="[INSTALLFOLDER]superslicer.exe" />
           </Extension>
         </ProgId>
         
-        <!-- OBJ file association -->
         <ProgId Id="SuperSlicer.OBJ" Description="Wavefront OBJ 3D Model">
           <Extension Id="obj" ContentType="text/plain">
             <Verb Id="open" Command="&quot;%1&quot;" TargetFile="[INSTALLFOLDER]superslicer.exe" />
           </Extension>
         </ProgId>
         
-        <!-- AMF file association -->
         <ProgId Id="SuperSlicer.AMF" Description="Additive Manufacturing Format">
           <Extension Id="amf" ContentType="application/x-amf">
             <Verb Id="open" Command="&quot;%1&quot;" TargetFile="[INSTALLFOLDER]superslicer.exe" />
@@ -100,12 +97,15 @@
                        Name="installed" Type="integer" Value="1" KeyPath="yes"/>
       </Component>
     </DirectoryRef>
+    -->
     
     <!-- Add file associations to the main feature -->
+    <!--
     <Feature Id="FileAssociationFeature" Title="File Associations" Level="1"
              Description="Associate common 3D file formats with SuperSlicer.">
       <ComponentRef Id="FileAssociations" />
     </Feature>
+    -->
     
     <!-- UI settings -->
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
@@ -119,6 +119,11 @@
     <Property Id="ARPPRODUCTICON" Value="SuperSlicerIcon.exe" />
     
     <!-- Custom actions and conditions can be added here -->
+    
+    <RemoveFolder Id="INSTALLFOLDER" On="uninstall" />
+    
+    <!-- Registry keys removal on uninstall -->
+    <RegistryKey Root="HKCU" Key="Software\SuperSlicer" Action="removeOnUninstall" />
     
   </Product>
 </Wix>
