@@ -124,7 +124,7 @@
     <DirectoryRef Id="INSTALLFOLDER">
       <Component Id="CleanupComponent" Guid="*">
         <RemoveFolder Id="INSTALLFOLDER" On="uninstall" />
-        <RegistryKey Root="HKCU" Key="Software\SuperSlicer" Action="removeOnUninstall" />
+        <RegistryKey Root="HKCU" Key="Software\SuperSlicer" ForceDeleteOnUninstall="yes" />
         <RegistryValue Root="HKCU" Key="Software\SuperSlicer\Cleanup" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
       </Component>
     </DirectoryRef>
