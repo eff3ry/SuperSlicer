@@ -131,7 +131,18 @@ jobs:
       with:
         name: nightly_win64
         path: build/package/
+        
 # MSI CREATION
+  create_msi:
+    runs-on: windows-2022
+    needs: build
+
+    steps:
+    - name: Download build artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: nightly_win64
+        path: build/package
     - name: Install WiX Toolset
       run: choco install wixtoolset -y
     - name: Prepare license file for MSI
@@ -152,14 +163,16 @@ jobs:
       run: |
         $fullVersion = (Get-Content version.inc | Select-String -Pattern 'set\(SLIC3R_VERSION_FULL \"(.*?)\"\)' | ForEach-Object { $_.Matches.Groups[1].Value })
         $dateSuffix = (Get-Date -Format 'ddMMyyyy')
-        $installerVersion = "$fullVersion.$dateSuffix"
+        $installerVersion = "$fullVersion.$dateSuffix" -replace '\.0\.', '.'
         echo "##vso[task.setvariable variable=InstallerVersion]$installerVersion"
+        $releaseType = "nightly beta"
+        echo "##vso[task.setvariable variable=ReleaseType]$releaseType"
     - name: Build MSI installer
       shell: cmd
       working-directory: ./build
       run: |
         set MSIFileName=SuperSlicer_%InstallerVersion%.msi
-        candle.exe -dSourceDir="package" -dInstallerVersion=%InstallerVersion% ..\installer.wxs files.wxs
+        candle.exe -dSourceDir="package" -dInstallerVersion=%InstallerVersion% -dReleaseType=%ReleaseType% ..\installer.wxs files.wxs
         light.exe -b package -ext WixUIExtension installer.wixobj files.wixobj -o %MSIFileName% -sw1076
     - name: Upload MSI artifact
       uses: actions/upload-artifact@v4
