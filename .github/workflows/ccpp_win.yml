@@ -164,14 +164,15 @@ jobs:
       run: |
         $fullVersion = (Get-Content version.inc | Select-String -Pattern 'set\(SLIC3R_VERSION_FULL \"(.*?)\"\)' | ForEach-Object { $_.Matches.Groups[1].Value })
         $dateSuffix = (Get-Date -Format 'ddMMyyyy')
-        $installerVersion = "$fullVersion.$dateSuffix" -replace '\.0\.', '.'
-        echo "##vso[task.setvariable variable=InstallerVersion]$installerVersion"
-        $releaseType = "nightly beta"
-        echo "##vso[task.setvariable variable=ReleaseType]$releaseType"
+        $env:InstallerVersion = "$fullVersion.$dateSuffix" -replace '\.0\.', '.'
+        echo "InstallerVersion=$env:InstallerVersion" >> $env:GITHUB_ENV
+        $env:ReleaseType = "nightly beta"
+        echo "ReleaseType=$env:ReleaseType" >> $env:GITHUB_ENV
     - name: Debug Installer Version
       shell: powershell
       run: |
         Write-Host "Installer Version: $env:InstallerVersion"
+        Write-Host "Release Type: $env:ReleaseType"
     - name: Build MSI installer
       shell: cmd
       working-directory: ./build
