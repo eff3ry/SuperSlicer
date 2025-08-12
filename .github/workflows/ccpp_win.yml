@@ -167,6 +167,10 @@ jobs:
         echo "##vso[task.setvariable variable=InstallerVersion]$installerVersion"
         $releaseType = "nightly beta"
         echo "##vso[task.setvariable variable=ReleaseType]$releaseType"
+    - name: Debug Installer Version
+      shell: powershell
+      run: |
+        Write-Host "Installer Version: $env:InstallerVersion"
     - name: Build MSI installer
       shell: cmd
       working-directory: ./build
