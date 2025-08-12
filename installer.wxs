@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="SuperSlicer $var.ReleaseType" Language="1033" Version="$(var.InstallerVersion)" Manufacturer="Supermerill" UpgradeCode="ee58a199-3c77-4865-bbe9-52b9cbb2bc32">
+  <Product Id="*" Name="SuperSlicer $(var.ReleaseType)" Language="1033" Version="$(var.InstallerVersion)" Manufacturer="Supermerill" UpgradeCode="ee58a199-3c77-4865-bbe9-52b9cbb2bc32">
     <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" 
              Description="SuperSlicer - Advanced 3D printing slicer"
              Comments="SuperSlicer installer package" />
