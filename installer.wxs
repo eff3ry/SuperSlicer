@@ -5,30 +5,21 @@
              Description="SuperSlicer - Advanced 3D printing slicer"
              Comments="SuperSlicer installer package" />
     
-    <!-- Media template for embedded CAB files -->
     <MediaTemplate EmbedCab="yes"/>
     
-    <!-- Major upgrade settings -->
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     
-    <!-- Directory structure -->
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLFOLDER" Name="SuperSlicer">
-          <!-- Subdirectories will be created by heat.exe harvesting -->
         </Directory>
       </Directory>
-      
-      <!-- Start Menu folder -->
       <Directory Id="ProgramMenuFolder">
         <Directory Id="ApplicationProgramsFolder" Name="SuperSlicer"/>
       </Directory>
-      
-      <!-- Desktop folder -->
       <Directory Id="DesktopFolder" Name="Desktop"/>
     </Directory>
     
-    <!-- Main application feature -->
     <Feature Id="DefaultFeature" Title="SuperSlicer Application" Level="1" 
              Description="The main SuperSlicer application and required files.">
       <ComponentGroupRef Id="Package" />
@@ -37,7 +28,6 @@
       <ComponentRef Id="CleanupComponent" />
     </Feature>
     
-    <!-- Shortcuts component -->
     <DirectoryRef Id="ApplicationProgramsFolder">
       <Component Id="ApplicationShortcut" Guid="*">
         <Shortcut Id="ApplicationStartMenuShortcut"
@@ -52,7 +42,6 @@
       </Component>
     </DirectoryRef>
     
-    <!-- Desktop shortcut component -->
     <DirectoryRef Id="DesktopFolder">
       <Component Id="DesktopShortcut" Guid="*">
         <Shortcut Id="ApplicationDesktopShortcut"
@@ -66,60 +55,13 @@
       </Component>
     </DirectoryRef>
     
-    <!-- File associations for common 3D file formats -->
-    <!--
-    <DirectoryRef Id="INSTALLFOLDER">
-      <Component Id="FileAssociations" Guid="*">
-        <ProgId Id="SuperSlicer.STL" Description="STL 3D Model">
-          <Extension Id="stl" ContentType="application/sla">
-            <Verb Id="open" Command="&quot;%1&quot;" TargetFile="[INSTALLFOLDER]superslicer.exe" />
-          </Extension>
-        </ProgId>
-        
-        <ProgId Id="SuperSlicer.3MF" Description="3D Manufacturing Format">
-          <Extension Id="3mf" ContentType="application/vnd.ms-package.3dmanufacturing-3dmodel+xml">
-            <Verb Id="open" Command="&quot;%1&quot;" TargetFile="[INSTALLFOLDER]superslicer.exe" />
-          </Extension>
-        </ProgId>
-        
-        <ProgId Id="SuperSlicer.OBJ" Description="Wavefront OBJ 3D Model">
-          <Extension Id="obj" ContentType="text/plain">
-            <Verb Id="open" Command="&quot;%1&quot;" TargetFile="[INSTALLFOLDER]superslicer.exe" />
-          </Extension>
-        </ProgId>
-        
-        <ProgId Id="SuperSlicer.AMF" Description="Additive Manufacturing Format">
-          <Extension Id="amf" ContentType="application/x-amf">
-            <Verb Id="open" Command="&quot;%1&quot;" TargetFile="[INSTALLFOLDER]superslicer.exe" />
-          </Extension>
-        </ProgId>
-        
-        <RegistryValue Root="HKCU" Key="Software\SuperSlicer\FileAssociations" 
-                       Name="installed" Type="integer" Value="1" KeyPath="yes"/>
-      </Component>
-    </DirectoryRef>
-    -->
-    
-    <!-- Add file associations to the main feature -->
-    <!--
-    <Feature Id="FileAssociationFeature" Title="File Associations" Level="1"
-             Description="Associate common 3D file formats with SuperSlicer.">
-      <ComponentRef Id="FileAssociations" />
-    </Feature>
-    -->
-    
-    <!-- UI settings -->
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
     <UIRef Id="WixUI_InstallDir" />
     
-    <!-- License file reference (optional - will be skipped if not found) -->
     <WixVariable Id="WixUILicenseRtf" Value="$(var.SourceDir)\LICENSE.rtf" Overridable="yes" />
     
-    <!-- Icon for shortcuts and Add/Remove Programs -->
     <Icon Id="SuperSlicerIcon.exe" SourceFile="$(var.SourceDir)\superslicer.exe" />
     <Property Id="ARPPRODUCTICON" Value="SuperSlicerIcon.exe" />
-    
-    <!-- Custom actions and conditions can be added here -->
     
     <DirectoryRef Id="INSTALLFOLDER">
       <Component Id="CleanupComponent" Guid="*">
@@ -133,16 +75,14 @@
       <UIRef Id="WixUI_InstallDir" />
 
       <Dialog Id="ExitDialog" Width="370" Height="270" Title="[ProductName] Setup">
-        <!-- ...existing controls... -->
         <Control Id="RunProgramCheckbox" Type="CheckBox" X="18" Y="180" Width="200" Height="17" Property="RUNPROGRAM" CheckBoxValue="1" Text="Launch SuperSlicer" />
       </Dialog>
 
       <InstallExecuteSequence>
-        <Custom Action="LaunchSuperSlicer" After="InstallFinalize">RUNPROGRAM=1</Custom>
+        <Custom Action="LaunchSuperSlicer" After="InstallFinalize">RUNPROGRAM=1 AND NOT Installed AND UILevel>=3</Custom>
       </InstallExecuteSequence>
 
       <CustomAction Id="LaunchSuperSlicer" FileKey="superslicer.exe" ExeCommand="" WorkingDirectory="INSTALLFOLDER" Return="asyncNoWait" />
     </UI>
-    
   </Product>
 </Wix>
