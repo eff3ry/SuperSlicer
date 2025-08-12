@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="SuperSlicer" Language="1033" Version="1.0.0.0" Manufacturer="Supermerill" UpgradeCode="ee58a199-3c77-4865-bbe9-52b9cbb2bc32">
+  <Product Id="*" Name="SuperSlicer beta" Language="1033" Version="$(var.InstallerVersion)" Manufacturer="Supermerill" UpgradeCode="ee58a199-3c77-4865-bbe9-52b9cbb2bc32">
     <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" 
              Description="SuperSlicer - Advanced 3D printing slicer"
              Comments="SuperSlicer installer package" />
@@ -128,6 +128,21 @@
         <RegistryValue Root="HKCU" Key="Software\SuperSlicer\Cleanup" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
       </Component>
     </DirectoryRef>
+    
+    <UI>
+      <UIRef Id="WixUI_InstallDir" />
+
+      <Dialog Id="ExitDialog" Width="370" Height="270" Title="[ProductName] Setup">
+        <!-- ...existing controls... -->
+        <Control Id="RunProgramCheckbox" Type="CheckBox" X="18" Y="180" Width="200" Height="17" Property="RUNPROGRAM" CheckBoxValue="1" Text="Launch SuperSlicer" />
+      </Dialog>
+
+      <InstallExecuteSequence>
+        <Custom Action="LaunchSuperSlicer" After="InstallFinalize">RUNPROGRAM=1</Custom>
+      </InstallExecuteSequence>
+
+      <CustomAction Id="LaunchSuperSlicer" FileKey="superslicer.exe" ExeCommand="" WorkingDirectory="INSTALLFOLDER" Return="asyncNoWait" />
+    </UI>
     
   </Product>
 </Wix>
