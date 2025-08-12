@@ -135,10 +135,11 @@ jobs:
 # MSI CREATION
   create_msi:
     runs-on: windows-2022
-    needs: build
+    # Commenting out the dependency on the build job for testing purposes
+    # needs: build
 
     steps:
-    - name: Download build artifact
+    - name: Download earlier build artifact
       uses: actions/download-artifact@v4
       with:
         name: nightly_win64
