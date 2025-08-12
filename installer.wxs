@@ -71,18 +71,18 @@
       </Component>
     </DirectoryRef>
     
+    <InstallExecuteSequence>
+      <Custom Action="LaunchSuperSlicer" After="InstallFinalize">RUNPROGRAM=1</Custom>
+    </InstallExecuteSequence>
+
+    <CustomAction Id="LaunchSuperSlicer" FileKey="superslicer.exe" ExeCommand="" WorkingDirectory="INSTALLFOLDER" Return="asyncNoWait" />
+
     <UI>
       <UIRef Id="WixUI_InstallDir" />
 
       <Dialog Id="ExitDialog" Width="370" Height="270" Title="[ProductName] Setup">
         <Control Id="RunProgramCheckbox" Type="CheckBox" X="18" Y="180" Width="200" Height="17" Property="RUNPROGRAM" CheckBoxValue="1" Text="Launch SuperSlicer" />
       </Dialog>
-
-      <InstallExecuteSequence>
-        <Custom Action="LaunchSuperSlicer" After="InstallFinalize">RUNPROGRAM=1</Custom>
-      </InstallExecuteSequence>
-
-      <CustomAction Id="LaunchSuperSlicer" FileKey="superslicer.exe" ExeCommand="" WorkingDirectory="INSTALLFOLDER" Return="asyncNoWait" />
     </UI>
   </Product>
 </Wix>
