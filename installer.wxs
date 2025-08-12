@@ -75,7 +75,7 @@
       <Custom Action="LaunchSuperSlicer" After="InstallFinalize">RUNPROGRAM=1</Custom>
     </InstallExecuteSequence>
 
-    <CustomAction Id="LaunchSuperSlicer" FileKey="superslicer.exe" ExeCommand="" WorkingDirectory="INSTALLFOLDER" Return="asyncNoWait" />
+    <CustomAction Id="LaunchSuperSlicer" FileKey="superslicer.exe" ExeCommand="" Return="asyncNoWait" />
 
     <UI>
       <UIRef Id="WixUI_InstallDir" />
