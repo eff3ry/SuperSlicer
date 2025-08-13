@@ -183,5 +183,5 @@ jobs:
     - name: Upload MSI artifact
       uses: actions/upload-artifact@v4
       with:
-        name: nightly_win64_MSI_%InstallerVersion%
-        path: build/SuperSlicer_%InstallerVersion%.msi
+        name: nightly_win64_MSI_${{ env.InstallerVersion }}
+        path: build/SuperSlicer_${{ env.InstallerVersion }}.msi
