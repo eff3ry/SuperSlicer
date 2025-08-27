@@ -150,10 +150,9 @@ jobs:
       shell: powershell
       working-directory: ./build
       run: |
-        # Create simple RTF from plain text LICENSE
+        # Convert LICENSE to RTF format for WiX installer
         $licenseContent = Get-Content ..\LICENSE -Raw
-        # Basic RTF with minimal formatting - just wrap plain text in RTF structure
-        $rtfContent = "{\rtf1\ansi\f0\fs20 " + $licenseContent.Replace("`r`n", "\par ").Replace("`n", "\par ") + "}"
+        $rtfContent = "{\rtf1\ansi\deff0 {\fonttbl {\f0 Times New Roman;}}{\f0\fs20 " + $licenseContent.Replace('\', '\\').Replace("`n", "\par ") + "}}"
         $rtfContent | Out-File -FilePath "package\LICENSE.rtf" -Encoding ASCII
     - name: Harvest files for MSI
       shell: cmd
