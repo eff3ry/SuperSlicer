@@ -150,9 +150,10 @@ jobs:
       shell: powershell
       working-directory: ./build
       run: |
-        # Convert LICENSE to RTF format for WiX installer
+        # Create simple RTF from plain text LICENSE
         $licenseContent = Get-Content ..\LICENSE -Raw
-        $rtfContent = "{\rtf1\ansi\deff0 {\fonttbl {\f0 Times New Roman;}}{\f0\fs20 " + $licenseContent.Replace('\', '\\').Replace("`n", "\par ") + "}}"
+        # Basic RTF with minimal formatting - just wrap plain text in RTF structure
+        $rtfContent = "{\rtf1\ansi\f0\fs20 " + $licenseContent.Replace("`r`n", "\par ").Replace("`n", "\par ") + "}"
         $rtfContent | Out-File -FilePath "package\LICENSE.rtf" -Encoding ASCII
     - name: Harvest files for MSI
       shell: cmd
@@ -166,19 +167,14 @@ jobs:
         $dateSuffix = (Get-Date -Format 'ddMMyyyy')
         $env:InstallerVersion = "$fullVersion.$dateSuffix" -replace '\.0\.', '.'
         echo "InstallerVersion=$env:InstallerVersion" >> $env:GITHUB_ENV
-        $env:ReleaseType = "nightly beta"
-        echo "ReleaseType=$env:ReleaseType" >> $env:GITHUB_ENV
-    - name: Debug Installer Version
-      shell: powershell
-      run: |
-        Write-Host "Installer Version: $env:InstallerVersion"
-        Write-Host "Release Type: $env:ReleaseType"
+        $env:ReleaseSuffix = "-Beta-Nightly"
+        echo "ReleaseSuffix=$env:ReleaseSuffix" >> $env:GITHUB_ENV
     - name: Build MSI installer
       shell: cmd
       working-directory: ./build
       run: |
         set MSIFileName=SuperSlicer_%InstallerVersion%.msi
-        candle.exe -dSourceDir="package" -dInstallerVersion="%InstallerVersion%" -dReleaseType="%ReleaseType%" ..\installer.wxs files.wxs
+        candle.exe -dSourceDir="package" -dInstallerVersion="%InstallerVersion%" -dReleaseSuffix="%ReleaseSuffix%" ..\winInstaller.wxs files.wxs
         light.exe -b package -ext WixUIExtension installer.wixobj files.wixobj -o %MSIFileName% -sw1076
     - name: Upload MSI artifact
       uses: actions/upload-artifact@v4
