@@ -142,7 +142,7 @@ jobs:
     - name: Download build artifact
       uses: actions/download-artifact@v4
       with:
-        name: nightly_win64
+        name: rc_win64
         path: build/package
     - name: Install WiX Toolset
       run: choco install wixtoolset -y
