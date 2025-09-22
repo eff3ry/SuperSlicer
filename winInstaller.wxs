@@ -8,6 +8,14 @@
     UpgradeCode="ee58a199-3c77-4865-bbe9-52b9cbb2bc32"
   >
 
+    <Package
+      InstallerVersion="500"
+      Compressed="yes"
+      InstallScope="perMachine"
+      Description="SuperSlicer - Advanced 3D printing slicer"
+      Comments="SuperSlicer installer package"
+    />
+
     <!-- 1. SEARCH: Read from the same registry key you write below -->
     <Property Id="INSTALLFOLDER">
       <RegistrySearch Id="FindInstallDir"
@@ -16,14 +24,6 @@
         Name="InstallDir"
         Type="raw" />
     </Property>
-
-    <Package
-      InstallerVersion="500"
-      Compressed="yes"
-      InstallScope="perMachine"
-      Description="SuperSlicer - Advanced 3D printing slicer"
-      Comments="SuperSlicer installer package"
-    />
 
     <MediaTemplate EmbedCab="yes" />
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
