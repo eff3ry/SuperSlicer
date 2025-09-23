@@ -19,7 +19,7 @@
     <!-- 1. SEARCH: Read from the same registry key you write below -->
     <Property Id="INSTALLFOLDER">
       <RegistrySearch Id="FindInstallDir"
-        Root="HKCU"
+        Root="HKLM"
         Key="Software\SuperSlicer"
         Name="InstallDir"
         Type="raw" />
@@ -48,27 +48,26 @@
       <ComponentRef Id="ApplicationShortcut" />
       <ComponentRef Id="DesktopShortcut" />
       <ComponentRef Id="CleanupComponent" />
-      <ComponentRef Id="MainAppComponent" /> <!-- Add this line if it isn't already referenced -->
+      <ComponentRef Id="RegistryComponent" />
     </Feature>
 
     <!-- Main application files (update Id and file as needed) -->
     <DirectoryRef Id="INSTALLFOLDER">
-      <Component Id="MainAppComponent" Guid="*">
-        <File Id="MainExe" Source="superslicer.exe" KeyPath="yes" />
-        <!-- 2. SAVE: Write install location to the same registry key -->
+      <Component Id="RegistryComponent" Guid="*">
+        <!-- 2. SAVE: Write install location to registry -->
         <RegistryValue
-          Root="HKCU"
+          Root="HKLM"
           Key="Software\SuperSlicer"
           Name="InstallDir"
           Type="string"
           Value="[INSTALLFOLDER]"
-          KeyPath="no" />
+          KeyPath="yes" />
       </Component>
 
       <Component Id="CleanupComponent" Guid="*">
         <RemoveFolder Id="INSTALLFOLDER" On="uninstall" />
         <RegistryKey
-          Root="HKCU"
+          Root="HKLM"
           Key="Software\SuperSlicer"
           ForceDeleteOnUninstall="yes"
         />
